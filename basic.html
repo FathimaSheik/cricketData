@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetching data</title>
+</head>
+<body>
+    <h1>Fetching Data in Front-end</h1>
+    <table id="playerTable" border="1">
+        <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Name</th>
+                <th>Runs</th>
+                <th>Balls</th>
+                <th>Fours</th>
+                <th>Sixes</th>
+                <th>Strike Rate</th>
+                <th>Team</th>
+                <th>Opposition</th>
+                <th>Match Date</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <script>
+        fetch('http://localhost:4000/getmendata')
+        .then((res)=>res.json())
+        .then((data)=>{
+            console.log('data', data);
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML='';
+            // populate the inside tbody
+            data.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.ranking}</td>
+                    <td>${player.name}</td>
+                    <td>${player.runs}</td>
+                    <td>${player.balls}</td>
+                    <td>${player.fours}</td>
+                    <td>${player.sixes}</td>
+                    <td>${player.sr}</td>
+                    <td>${player.team}</td>
+                    <td>${player.opposition}</td>
+                    <td>${player.matchDate}</td>
+                `
+                tableBody.appendChild(row);    
+            });
+        })
+        .catch((e)=>console.log(e))
+    </script>
+</body>
+</html>
